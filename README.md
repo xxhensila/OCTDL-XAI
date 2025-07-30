@@ -26,14 +26,9 @@ python kfold_train.py -c configs/your_config.yaml
 
 
 ## 3. Explainable AI Integration
-→ Implemented EigenCAM tool. Optional -> Grad-CAM & KPCA-CAM to visualize learned attention, improving interpretability and clinical trust in predictions.
+→ Implemented EigenCAM tool to visualize learned attention, improving interpretability and clinical trust in predictions.
 
-### For GradCAM and KPCA-CAM
-```shell
-python utils/gradcam.py
-```
-
-### For EigenCAM only
+### Run
 ```shell
 python utils/xai.py
 ```
