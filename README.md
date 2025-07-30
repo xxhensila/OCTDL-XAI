@@ -4,8 +4,11 @@ We retain the original license and acknowledge the authorship accordingly.
 
 # OCTDL-XAI
 
-> An explainable, patient-aware extension of [OCTDL](https://github.com/MikhailKulyabin/OCTDL)  
-> Now with k-Fold cross-validation, CAM visualizations (Grad-CAM, EigenCAM, KPCA-CAM).
+> Credits  
+>This project is an independent extension of [OCTDL](https://github.com/MikhailKulyabin/OCTDL)  by Mikhail Kulyabin et al.
+>The original project is licensed under the MIT License, which is retained in this repository.
+
+>We are not affiliated with the original authors, but acknowledge and build upon their excellent work.
 ---
 
 ## What's Added in This Extension
@@ -18,7 +21,7 @@ We retain the original license and acknowledge the authorship accordingly.
 ```shell
 python kfold_train.py -c configs/your_config.yaml
 ```
-Optional arguments:
+#### Optional arguments:
 
 -k or --folds: Number of folds (default: 5)
 --save_model: Save best model from each fold
