@@ -1,19 +1,14 @@
-This repository is an extension of OCTDL, originally developed by Mikhail Kulyabin et al. under the MIT License.
-We retain the original license and acknowledge the authorship accordingly.
+## Credits  
+This project is an independent extension of [OCTDL](https://github.com/MikhailKulyabin/OCTDL)  by Mikhail Kulyabin et al.  
+The original project is licensed under the MIT License, which is retained in this repository.  
 
+We are not affiliated with the original authors, but acknowledge and build upon their excellent work.
 
 # OCTDL-XAI
 
-> Credits  
->This project is an independent extension of [OCTDL](https://github.com/MikhailKulyabin/OCTDL)  by Mikhail Kulyabin et al.
->The original project is licensed under the MIT License, which is retained in this repository.
+# What's Added in This Extension
 
->We are not affiliated with the original authors, but acknowledge and build upon their excellent work.
----
-
-## What's Added in This Extension
-
-1. Patient-wise k-Fold Cross-Validation
+## 1. Patient-wise k-Fold Cross-Validation
 → Ensures robust performance evaluation by preventing data leakage and revealing generalization across unseen patients.
 
 ### To train the model using patient-wise k-fold CV:
@@ -26,11 +21,11 @@ python kfold_train.py -c configs/your_config.yaml
 -k or --folds: Number of folds (default: 5)
 --save_model: Save best model from each fold
 
-2. Training with Lightweight CNN Models
+## 2. Training with Lightweight CNN Models
 → Integrated and tested models like MobileNetV2 and EfficientNet-B0, which offer strong accuracy–efficiency trade-offs suited for clinical deployment.
 
 
-3. Explainable AI Integration
+## 3. Explainable AI Integration
 → Implemented EigenCAM tool. Optional -> Grad-CAM & KPCA-CAM to visualize learned attention, improving interpretability and clinical trust in predictions.
 
 ### For GradCAM and KPCA-CAM
