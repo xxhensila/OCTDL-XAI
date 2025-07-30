@@ -1,0 +1,132 @@
+# ======= GENERAL SETTINGS =======
+base:
+  data_path: ./dataset_1                # Path to your dataset (organized into train/val/test folders)
+  save_path: ./run                      # Where all outputs (logs, weights) will be saved
+  device: cuda                           # Use 'cuda' for GPU or 'cpu' for CPU
+  random_seed: 0                        # Ensures reproducible results
+  overwrite: false                      # If true, overwrite existing run folder
+  progress: true                        # Show tqdm progress bars
+  cudnn_deterministic: False           # If true, ensures reproducibility on GPU (but slower)
+
+# ======= DATA SETTINGS =======
+data:
+  num_classes: 7                        # Total number of disease classes (e.g., AMD, DME, etc.)
+  input_size: 224                       # Final size of images (224x224)
+  in_channels: 3                        # Number of image channels (3 for RGB)
+  mean: auto                            # Automatically compute mean of training data
+  std: auto                             # Automatically compute std dev of training data
+#  sampling_strategy: class_balanced     # Strategy for handling class imbalance
+  sampling_weights_decay_rate: 0.9      # For progressively balanced sampling (0.9 = slowly move to uniform)
+
+
+  data_augmentation:                    # List of augmentations applied during training
+    - random_crop
+    - horizontal_flip
+    - vertical_flip
+    - color_distortion
+    - rotation
+    - translation
+    - gaussian_blur
+
+# ======= TRAINING SETTINGS =======
+train:
+  network: efficientnet_b0             # Model architecture (from timm library). Change this to your DL model of choice
+  pretrained: true                      # Use ImageNet pretrained weights
+  checkpoint: null                      # Path to a checkpoint to resume training (null = start from scratch)
+  epochs: &epochs 100                   # Total number of training epochs
+  batch_size: 64                        # Batch size for training
+  num_workers: 8                        # Number of CPU workers for loading data
+  criterion: cross_entropy              # Loss function used
+  loss_weight: null                     # You can set class weights here or leave null
+  loss_weight_decay_rate: 0            # If using dynamic class weights, this controls how they change
+  warmup_epochs: 0                      # If > 0, LR warmup will be applied for these initial epochs
+  metrics: [acc, f1, auc, precision, recall]   # Metrics tracked during training/evaluation
+  indicator: acc                        # The main metric used to save the "best model"
+  save_interval: 5                      # Save model every 5 epochs
+  eval_interval: 1                      # Evaluate on validation set every 1 epoch
+  sample_view: false                    # If true, logs images to TensorBoard
+  pin_memory: true                      # Recommended true when using GPU
+
+# ======= OPTIMIZER & SCHEDULER SETTINGS =======
+solver:
+  optimizer: ADAM                       # Optimizer type (SGD, ADAM, ADAMW supported)
+  learning_rate: 0.0003                 # Initial learning rate
+  lr_scheduler: cosine                  # Learning rate scheduler (see below for full config)
+  momentum: 0.9                         # Used only with SGD
+  nesterov: true                        # Used only with SGD
+  weight_decay: 0.0005                  # L2 regularization (prevents overfitting)
+  adamw_betas: [0.9, 0.999]             # Parameters for ADAMW optimizer
+
+# ======= LOSS FUNCTION PARAMETERS =======
+criterion_args:
+  cross_entropy: {}                     # No special args passed to CrossEntropyLoss
+
+# ======= SCHEDULER PARAMETERS =======
+scheduler_args:
+  exponential:
+    gamma: 0.6                          # Used if 'exponential' scheduler is selected
+
+  multiple_steps:
+    milestones: [15, 25, 45]            # Epochs where LR drops (used in MultiStepLR)
+    gamma: 0.1                          # Factor to multiply LR by
+
+  cosine:
+    T_max: *epochs                      # Cosine schedule cycles over all training epochs
+    eta_min: 0                          # Minimum learning rate at end of schedule
+
+  reduce_on_plateau:
+    mode: min                           # Monitor loss (minimize it)
+    factor: 0.1                         # Reduce LR by this factor
+    patience: 5                         # Wait this many epochs without improvement
+    threshold: 0.0001                   # Change threshold to trigger LR reduction
+    eps: 0.00001                        # Minimum change allowed
+
+  clipped_cosine:
+    T_max: *epochs
+    min_lr: 0.0001                      # Like cosine, but clipped to never go below min_lr
+
+# ======= AUGMENTATION PARAMETERS =======
+data_augmentation_args:
+  horizontal_flip:
+    prob: 0.5                           # 50% chance to flip image horizontally
+
+  vertical_flip:
+    prob: 0.5                           # 50% chance to flip vertically
+
+  color_distortion:
+    prob: 0.5
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
+    hue: 0.2
+
+  random_crop:
+    prob: 0.5
+    scale: [0.87, 1.15]                 # Relative area of the crop
+    ratio: [0.65, 1.3]                  # Aspect ratio of the crop (w/h)
+
+  rotation:
+    prob: 0.5
+    degrees: [-180, 180]                # Random rotation in this range
+
+  translation:
+    prob: 0.5
+    range: [0.2, 0.2]                   # Translate image by max 20% width and height
+
+  grayscale:
+    prob: 0.5                           # Convert to grayscale with 50% chance
+
+  gaussian_blur:
+    prob: 0.2
+    kernel_size: 7
+    sigma: 0.6                          # Strength of the blur
+
+  value_fill: 0                         # Pixel value used for padding (black = 0)
+
+
+  # added and needed for k-fold
+  csv_path: OCTDL_dataset/labels.csv    #  CSV Path
+  image_root: OCTDL_dataset
+  classes: ["AMD", "DME", "ERM", "NO", "RAO", "RVO", "VID"]
+
+  sampling_strategy: instance_balanced
