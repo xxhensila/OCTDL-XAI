@@ -30,12 +30,12 @@ python kfold_train.py -c configs/your_config.yaml
 
 ### For GradCAM and KPCA-CAM
 ```shell
-python utils/xai.py
+python utils/gradcam.py
 ```
 
 ### For EigenCAM only
 ```shell
-python utils/eigencam.py
+python utils/xai.py
 ```
 ---
 
