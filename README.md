@@ -1,6 +1,6 @@
 ## Credits  
 This project is an independent extension of [OCTDL](https://github.com/MikhailKulyabin/OCTDL)  by Mikhail Kulyabin et al.  
-The original project is licensed under the MIT License, which is retained in this repository.  
+The original project is licensed under the Apache License 2.0, which is retained in this repository.  
 
 We are not affiliated with the original authors, but acknowledge and build upon their excellent work.
 
