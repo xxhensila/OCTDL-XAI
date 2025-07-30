@@ -18,7 +18,7 @@ python kfold_train.py -c configs/your_config.yaml
 ```
 #### Optional arguments:
 
--k or --folds: Number of folds (default: 5)
+-k or --folds: Number of folds (default: 5)  
 --save_model: Save best model from each fold
 
 ## 2. Training with Lightweight CNN Models
@@ -66,26 +66,22 @@ https://rdcu.be/dELrE
 https://arxiv.org/abs/2312.08255
 
 
-Requirements:
-- pytorch
-- torchvision
-- torcheval
-- timm
-- tqdm
-- munch
-- packaging
-- tensorboard
-- omegaconf
-- opencv-python
-- hydra-core
-- scikit-learn
+### Dependencies
+- `torch`, `torchvision`, `torcheval`, `timm`
+- `hydra-core`, `omegaconf`, `opencv-python`, `scikit-learn`
+- `tensorboard`, `tqdm`, `packaging`, `munch`
+
+```shell
+pip install -r requirements.txt
+```
+---
 
 
 
 ## How to use
 In this work we use folder-form dataset structure:
 ```
-├── dataset
+├── dataset_1
     ├── train
         ├── class1
             ├── image1.jpg
